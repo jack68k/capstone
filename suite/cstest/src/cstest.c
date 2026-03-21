@@ -7,6 +7,7 @@
 #include <capstone/platform.h>
 #include <ftw.h>
 #include <stdio.h>
+#include <sys/stat.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
@@ -49,6 +50,17 @@ static int handle_ftree_entry(const char *fpath, const struct stat *sb,
 static void get_tfiles(int argc, const char **argv)
 {
 	for (size_t i = 1; i < argc; ++i) {
+		struct stat st;
+		if (stat(argv[i], &st) == -1) {
+			fprintf(stderr, "[!] stat failed for '%s'.\n",
+				argv[i]);
+			return;
+		}
+		// nftw does not support regular files on macOS.
+		if (S_ISREG(st.st_mode)) {
+			handle_ftree_entry(argv[i], &st, FTW_F, NULL);
+			continue;
+		}
 		if (nftw(argv[i], handle_ftree_entry, 20,
 			 FTW_DEPTH | FTW_PHYS) == -1) {
 			fprintf(stderr, "[!] nftw failed.\n");
