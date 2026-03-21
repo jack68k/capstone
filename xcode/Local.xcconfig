@@ -1,0 +1,6 @@
+// Local build settings - not checked into version control
+// Copy Local.xcconfig.template to Local.xcconfig and adjust paths if needed.
+
+#include "Capstone.xcconfig"
+
+HOMEBREW_PREFIX = /opt/homebrew

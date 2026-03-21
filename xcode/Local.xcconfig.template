@@ -1,0 +1,7 @@
+// Local build settings - not checked into version control
+// Copy this file to Local.xcconfig and adjust paths if needed.
+
+#include "Capstone.xcconfig"
+
+// Homebrew prefix (/opt/homebrew on Apple Silicon, /usr/local on Intel)
+HOMEBREW_PREFIX = /opt/homebrew

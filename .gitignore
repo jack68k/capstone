@@ -117,6 +117,7 @@ build*/
 /out
 
 # Xcode
+xcode/Local.xcconfig
 xcode/Capstone.xcodeproj/xcuserdata
 xcode/Capstone.xcodeproj/project.xcworkspace/xcuserdata
 
