@@ -1216,7 +1216,7 @@ test_cases:
                 address_mode: M68K_AM_BRANCH_DISPLACEMENT
                 disp_offset: 2
                 br_disp: 0x3a
-                br_disp_size: 4
+                br_disp_size: 2
       -
         asm_text: "fbeq.w $4050"
         details:

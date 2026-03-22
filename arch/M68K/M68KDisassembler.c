@@ -926,7 +926,7 @@ static void build_dbxx(m68k_info *info, int opcode, int size, int displacement)
 	op1->type = M68K_OP_BR_DISP;
 	op1->address_mode = M68K_AM_BRANCH_DISPLACEMENT;
 	op1->br_disp.disp = displacement;
-	op1->br_disp.disp_size = M68K_OP_BR_DISP_SIZE_LONG;
+	op1->br_disp.disp_size = M68K_OP_BR_DISP_SIZE_WORD;
 	op1->disp_offset = 2;
 
 	set_insn_group(info, M68K_GRP_JUMP);
