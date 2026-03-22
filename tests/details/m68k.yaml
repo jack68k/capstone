@@ -1,7 +1,7 @@
 test_cases:
   -
     input:
-      bytes: [ 0xf0, 0x10, 0xf0, 0x00, 0x48, 0xaf, 0xff, 0xff, 0x7f, 0xff, 0x11, 0xb0, 0x01, 0x37, 0x7f, 0xff, 0xff, 0xff, 0x12, 0x34, 0x56, 0x78, 0x01, 0x33, 0x10, 0x10, 0x10, 0x10, 0x32, 0x32, 0x32, 0x32, 0x4c, 0x00, 0x54, 0x04, 0x48, 0xe7, 0xe0, 0x30, 0x4c, 0xdf, 0x0c, 0x07, 0xd4, 0x40, 0x87, 0x5a, 0x4e, 0x71, 0x02, 0xb4, 0xc0, 0xde, 0xc0, 0xde, 0x5c, 0x00, 0x1d, 0x80, 0x71, 0x12, 0x01, 0x23, 0xf2, 0x3c, 0x44, 0x22, 0x40, 0x49, 0x0e, 0x56, 0x54, 0xc5, 0xf2, 0x3c, 0x44, 0x00, 0x44, 0x7a, 0x00, 0x00, 0xf2, 0x00, 0x0a, 0x28, 0x4e, 0xb9, 0x00, 0x00, 0x00, 0x12, 0x4e, 0x75, 0x47, 0xf1, 0x21, 0x22, 0xff, 0xd6, 0xff, 0xa9, 0x47, 0xf1, 0x21, 0x12, 0xff, 0xa9, 0x47, 0xf1, 0x21, 0x21, 0xff, 0xd6, 0x47, 0xf1, 0x21, 0x26, 0xff, 0xd6, 0xff, 0xa9, 0x47, 0xf1, 0x21, 0x20, 0xff, 0xd6, 0x47, 0xfb, 0x21, 0x20, 0xf9, 0xce, 0x47, 0xfb, 0x21, 0x30, 0xff, 0xff, 0xf9, 0xc8, 0x47, 0xfb, 0x01, 0x70, 0xff, 0xff, 0xf9, 0xc0, 0x47, 0xf0, 0x29, 0xa0, 0xff, 0xd6 ]
+      bytes: [ 0xf2, 0x10, 0xf0, 0x00, 0x48, 0xaf, 0xff, 0xff, 0x7f, 0xff, 0x11, 0xb0, 0x01, 0x37, 0x7f, 0xff, 0xff, 0xff, 0x12, 0x34, 0x56, 0x78, 0x01, 0x33, 0x10, 0x10, 0x10, 0x10, 0x32, 0x32, 0x32, 0x32, 0x4c, 0x00, 0x54, 0x04, 0x48, 0xe7, 0xe0, 0x30, 0x4c, 0xdf, 0x0c, 0x07, 0xd4, 0x40, 0x87, 0x5a, 0x4e, 0x71, 0x02, 0xb4, 0xc0, 0xde, 0xc0, 0xde, 0x5c, 0x00, 0x1d, 0x80, 0x71, 0x12, 0x01, 0x23, 0xf2, 0x3c, 0x44, 0x22, 0x40, 0x49, 0x0e, 0x56, 0x54, 0xc5, 0xf2, 0x3c, 0x44, 0x00, 0x44, 0x7a, 0x00, 0x00, 0xf2, 0x00, 0x0a, 0x28, 0x4e, 0xb9, 0x00, 0x00, 0x00, 0x12, 0x4e, 0x75, 0x47, 0xf1, 0x21, 0x22, 0xff, 0xd6, 0xff, 0xa9, 0x47, 0xf1, 0x21, 0x12, 0xff, 0xa9, 0x47, 0xf1, 0x21, 0x21, 0xff, 0xd6, 0x47, 0xf1, 0x21, 0x26, 0xff, 0xd6, 0xff, 0xa9, 0x47, 0xf1, 0x21, 0x20, 0xff, 0xd6, 0x47, 0xfb, 0x21, 0x20, 0xf9, 0xce, 0x47, 0xfb, 0x21, 0x30, 0xff, 0xff, 0xf9, 0xc8, 0x47, 0xfb, 0x01, 0x70, 0xff, 0xff, 0xf9, 0xc0, 0x47, 0xf0, 0x29, 0xa0, 0xff, 0xd6 ]
       arch: "m68k"
       options: [ CS_OPT_DETAIL, CS_MODE_BIG_ENDIAN, CS_MODE_M68K_040 ]
       address: 0x1000
@@ -404,3 +404,738 @@ test_cases:
               -
                 type: M68K_OP_REG
                 reg: a3
+  -
+    input:
+      bytes: [ 0xf0, 0x10, 0x38, 0x00, 0xf0, 0x10, 0x22, 0x01, 0xf0, 0x10, 0x20, 0x01, 0xf0, 0x10, 0x42, 0x00, 0xf0, 0x10, 0x60, 0x00, 0xf0, 0x10, 0x61, 0x00, 0xf0, 0x10, 0x9e, 0x01, 0xf0, 0x10, 0x9c, 0x01, 0xf0, 0x80, 0x00, 0x00, 0xf0, 0x81, 0x00, 0x00, 0xf0, 0x82, 0x00, 0x00, 0xf0, 0x83, 0x00, 0x00, 0xf0, 0x84, 0x00, 0x00, 0xf0, 0x85, 0x00, 0x00, 0xf0, 0x86, 0x00, 0x00, 0xf0, 0x87, 0x00, 0x00, 0xf0, 0x88, 0x00, 0x00, 0xf0, 0x89, 0x00, 0x00, 0xf0, 0x8a, 0x00, 0x00, 0xf0, 0x8b, 0x00, 0x00, 0xf0, 0x8c, 0x00, 0x00, 0xf0, 0x8d, 0x00, 0x00, 0xf0, 0x8e, 0x00, 0x00, 0xf0, 0x8f, 0x00, 0x00, 0xf0, 0xc0, 0x00, 0x00, 0x00, 0x00, 0xf0, 0xc1, 0x00, 0x00, 0x00, 0x00, 0xf0, 0x48, 0x00, 0x00, 0x00, 0x00, 0xf0, 0x49, 0x00, 0x01, 0x00, 0x00, 0xf0, 0x50, 0x00, 0x00, 0xf0, 0x50, 0x00, 0x01, 0xf0, 0x7c, 0x00, 0x00, 0xf0, 0x7a, 0x00, 0x01, 0x12, 0x34, 0xf0, 0x7b, 0x00, 0x02, 0x12, 0x34, 0x56, 0x78, 0xf1, 0x10, 0xf1, 0x50 ]
+      arch: "m68k"
+      options: [ CS_OPT_DETAIL, CS_MODE_BIG_ENDIAN, CS_MODE_M68K_030 ]
+      address: 0x1000
+    expected:
+      insns:
+      -
+        asm_text: "pflush sfc, #$0, (a0)"
+        details:
+          regs_read: [ sfc, a0 ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_REG
+                reg: sfc
+              -
+                type: M68K_OP_IMM
+                address_mode: M68K_AM_IMMEDIATE
+                imm: 0x0
+              -
+                type: M68K_OP_MEM
+                address_mode: M68K_AM_REGI_ADDR
+      -
+        asm_text: "ploadr dfc, (a0)"
+        details:
+          regs_read: [ dfc, a0 ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_REG
+                reg: dfc
+              -
+                type: M68K_OP_MEM
+                address_mode: M68K_AM_REGI_ADDR
+      -
+        asm_text: "ploadw dfc, (a0)"
+        details:
+          regs_read: [ dfc, a0 ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_REG
+                reg: dfc
+              -
+                type: M68K_OP_MEM
+                address_mode: M68K_AM_REGI_ADDR
+      -
+        asm_text: "pmove tc, (a0)"
+        details:
+          regs_read: [ tc, a0 ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_REG
+                reg: tc
+              -
+                type: M68K_OP_MEM
+                address_mode: M68K_AM_REGI_ADDR
+      -
+        asm_text: "pmove (a0), tt0"
+        details:
+          regs_read: [ a0 ]
+          regs_write: [ tt0 ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_MEM
+                address_mode: M68K_AM_REGI_ADDR
+              -
+                type: M68K_OP_REG
+                reg: tt0
+      -
+        asm_text: "pmovefd (a0), tt0"
+        details:
+          regs_read: [ a0 ]
+          regs_write: [ tt0 ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_MEM
+                address_mode: M68K_AM_REGI_ADDR
+              -
+                type: M68K_OP_REG
+                reg: tt0
+      -
+        asm_text: "ptestr dfc, (a0), #$7"
+        details:
+          regs_read: [ dfc, a0 ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_REG
+                reg: dfc
+              -
+                type: M68K_OP_MEM
+                address_mode: M68K_AM_REGI_ADDR
+              -
+                type: M68K_OP_IMM
+                address_mode: M68K_AM_IMMEDIATE
+                imm: 0x7
+      -
+        asm_text: "ptestw dfc, (a0), #$7"
+        details:
+          regs_read: [ dfc, a0 ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_REG
+                reg: dfc
+              -
+                type: M68K_OP_MEM
+                address_mode: M68K_AM_REGI_ADDR
+              -
+                type: M68K_OP_IMM
+                address_mode: M68K_AM_IMMEDIATE
+                imm: 0x7
+      -
+        asm_text: "pbbs.w $1022"
+        details:
+          groups: [ M68K_GRP_JUMP, M68K_GRP_BRANCH_RELATIVE ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_BR_DISP
+                address_mode: M68K_AM_BRANCH_DISPLACEMENT
+                br_disp: 0
+                br_disp_size: 2
+      -
+        asm_text: "pbbc.w $1026"
+        details:
+          groups: [ M68K_GRP_JUMP, M68K_GRP_BRANCH_RELATIVE ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_BR_DISP
+                address_mode: M68K_AM_BRANCH_DISPLACEMENT
+                br_disp: 0
+                br_disp_size: 2
+      -
+        asm_text: "pbls.w $102a"
+        details:
+          groups: [ M68K_GRP_JUMP, M68K_GRP_BRANCH_RELATIVE ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_BR_DISP
+                address_mode: M68K_AM_BRANCH_DISPLACEMENT
+                br_disp: 0
+                br_disp_size: 2
+      -
+        asm_text: "pblc.w $102e"
+        details:
+          groups: [ M68K_GRP_JUMP, M68K_GRP_BRANCH_RELATIVE ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_BR_DISP
+                address_mode: M68K_AM_BRANCH_DISPLACEMENT
+                br_disp: 0
+                br_disp_size: 2
+      -
+        asm_text: "pbss.w $1032"
+        details:
+          groups: [ M68K_GRP_JUMP, M68K_GRP_BRANCH_RELATIVE ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_BR_DISP
+                address_mode: M68K_AM_BRANCH_DISPLACEMENT
+                br_disp: 0
+                br_disp_size: 2
+      -
+        asm_text: "pbsc.w $1036"
+        details:
+          groups: [ M68K_GRP_JUMP, M68K_GRP_BRANCH_RELATIVE ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_BR_DISP
+                address_mode: M68K_AM_BRANCH_DISPLACEMENT
+                br_disp: 0
+                br_disp_size: 2
+      -
+        asm_text: "pbas.w $103a"
+        details:
+          groups: [ M68K_GRP_JUMP, M68K_GRP_BRANCH_RELATIVE ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_BR_DISP
+                address_mode: M68K_AM_BRANCH_DISPLACEMENT
+                br_disp: 0
+                br_disp_size: 2
+      -
+        asm_text: "pbac.w $103e"
+        details:
+          groups: [ M68K_GRP_JUMP, M68K_GRP_BRANCH_RELATIVE ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_BR_DISP
+                address_mode: M68K_AM_BRANCH_DISPLACEMENT
+                br_disp: 0
+                br_disp_size: 2
+      -
+        asm_text: "pbws.w $1042"
+        details:
+          groups: [ M68K_GRP_JUMP, M68K_GRP_BRANCH_RELATIVE ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_BR_DISP
+                address_mode: M68K_AM_BRANCH_DISPLACEMENT
+                br_disp: 0
+                br_disp_size: 2
+      -
+        asm_text: "pbwc.w $1046"
+        details:
+          groups: [ M68K_GRP_JUMP, M68K_GRP_BRANCH_RELATIVE ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_BR_DISP
+                address_mode: M68K_AM_BRANCH_DISPLACEMENT
+                br_disp: 0
+                br_disp_size: 2
+      -
+        asm_text: "pbis.w $104a"
+        details:
+          groups: [ M68K_GRP_JUMP, M68K_GRP_BRANCH_RELATIVE ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_BR_DISP
+                address_mode: M68K_AM_BRANCH_DISPLACEMENT
+                br_disp: 0
+                br_disp_size: 2
+      -
+        asm_text: "pbic.w $104e"
+        details:
+          groups: [ M68K_GRP_JUMP, M68K_GRP_BRANCH_RELATIVE ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_BR_DISP
+                address_mode: M68K_AM_BRANCH_DISPLACEMENT
+                br_disp: 0
+                br_disp_size: 2
+      -
+        asm_text: "pbgs.w $1052"
+        details:
+          groups: [ M68K_GRP_JUMP, M68K_GRP_BRANCH_RELATIVE ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_BR_DISP
+                address_mode: M68K_AM_BRANCH_DISPLACEMENT
+                br_disp: 0
+                br_disp_size: 2
+      -
+        asm_text: "pbgc.w $1056"
+        details:
+          groups: [ M68K_GRP_JUMP, M68K_GRP_BRANCH_RELATIVE ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_BR_DISP
+                address_mode: M68K_AM_BRANCH_DISPLACEMENT
+                br_disp: 0
+                br_disp_size: 2
+      -
+        asm_text: "pbcs.w $105a"
+        details:
+          groups: [ M68K_GRP_JUMP, M68K_GRP_BRANCH_RELATIVE ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_BR_DISP
+                address_mode: M68K_AM_BRANCH_DISPLACEMENT
+                br_disp: 0
+                br_disp_size: 2
+      -
+        asm_text: "pbcc.w $105e"
+        details:
+          groups: [ M68K_GRP_JUMP, M68K_GRP_BRANCH_RELATIVE ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_BR_DISP
+                address_mode: M68K_AM_BRANCH_DISPLACEMENT
+                br_disp: 0
+                br_disp_size: 2
+      -
+        asm_text: "pbbs.l $1062"
+        details:
+          groups: [ M68K_GRP_JUMP, M68K_GRP_BRANCH_RELATIVE ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_BR_DISP
+                address_mode: M68K_AM_BRANCH_DISPLACEMENT
+                br_disp: 0
+                br_disp_size: 4
+      -
+        asm_text: "pbbc.l $1068"
+        details:
+          groups: [ M68K_GRP_JUMP, M68K_GRP_BRANCH_RELATIVE ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_BR_DISP
+                address_mode: M68K_AM_BRANCH_DISPLACEMENT
+                br_disp: 0
+                br_disp_size: 4
+      -
+        asm_text: "pdbbs d0, $1070"
+        details:
+          regs_read: [ d0 ]
+          groups: [ M68K_GRP_JUMP, M68K_GRP_BRANCH_RELATIVE ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_REG
+                reg: d0
+              -
+                type: M68K_OP_BR_DISP
+                address_mode: M68K_AM_BRANCH_DISPLACEMENT
+                br_disp: 2
+                br_disp_size: 2
+      -
+        asm_text: "pdbbc d1, $1076"
+        details:
+          regs_read: [ d1 ]
+          groups: [ M68K_GRP_JUMP, M68K_GRP_BRANCH_RELATIVE ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_REG
+                reg: d1
+              -
+                type: M68K_OP_BR_DISP
+                address_mode: M68K_AM_BRANCH_DISPLACEMENT
+                br_disp: 2
+                br_disp_size: 2
+      -
+        asm_text: "psbs.b (a0)"
+        details:
+          regs_read: [ a0 ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_MEM
+                address_mode: M68K_AM_REGI_ADDR
+      -
+        asm_text: "psbc.b (a0)"
+        details:
+          regs_read: [ a0 ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_MEM
+                address_mode: M68K_AM_REGI_ADDR
+      -
+        asm_text: "ptrapbs"
+      -
+        asm_text: "ptrapbc.w #$1234"
+        details:
+          m68k:
+            operands:
+              -
+                type: M68K_OP_IMM
+                address_mode: M68K_AM_IMMEDIATE
+                imm: 0x1234
+      -
+        asm_text: "ptrapls.w #$12345678"
+        details:
+          m68k:
+            operands:
+              -
+                type: M68K_OP_IMM
+                address_mode: M68K_AM_IMMEDIATE
+                imm: 0x12345678
+      -
+        asm_text: "psave (a0)"
+        details:
+          regs_read: [ a0 ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_MEM
+                address_mode: M68K_AM_REGI_ADDR
+      -
+        asm_text: "prestore (a0)"
+        details:
+          regs_read: [ a0 ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_MEM
+                address_mode: M68K_AM_REGI_ADDR
+
+  -
+    input:
+      bytes: [ 0xf0, 0x10, 0x40, 0x00, 0xf0, 0x10, 0x42, 0x00, 0xf0, 0x10, 0x48, 0x00, 0xf0, 0x10, 0x4a, 0x00, 0xf0, 0x10, 0x4c, 0x00, 0xf0, 0x10, 0x4e, 0x00, 0xf0, 0x10, 0x60, 0x00, 0xf0, 0x10, 0x62, 0x00, 0xf0, 0x10, 0x68, 0x00, 0xf0, 0x10, 0x6a, 0x00, 0xf0, 0x10, 0x6c, 0x00, 0xf0, 0x10, 0x6e, 0x00, 0xf0, 0x10, 0x61, 0x00, 0xf0, 0x10, 0x63, 0x00, 0xf0, 0x10, 0x69, 0x00, 0xf0, 0x10, 0x6b, 0x00, 0xf0, 0x10, 0x08, 0x00, 0xf0, 0x10, 0x0a, 0x00, 0xf0, 0x10, 0x0c, 0x00, 0xf0, 0x10, 0x0e, 0x00, 0xf0, 0x10, 0x09, 0x00, 0xf0, 0x10, 0x0b, 0x00, 0xf0, 0x10, 0x0d, 0x00, 0xf0, 0x10, 0x0f, 0x00, 0xf0, 0x39, 0x40, 0x00, 0x12, 0x34, 0x56, 0x78, 0xf0, 0x38, 0x4a, 0x00, 0x12, 0x34 ]
+      arch: "m68k"
+      options: [ CS_OPT_DETAIL, CS_MODE_BIG_ENDIAN, CS_MODE_M68K_030 ]
+      address: 0x1000
+    expected:
+      insns:
+      -
+        asm_text: "pmove (a0), tc"
+        details:
+          regs_read: [ a0 ]
+          regs_write: [ tc ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_MEM
+                address_mode: M68K_AM_REGI_ADDR
+              -
+                type: M68K_OP_REG
+                reg: tc
+      -
+        asm_text: "pmove tc, (a0)"
+        details:
+          regs_read: [ tc, a0 ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_REG
+                reg: tc
+              -
+                type: M68K_OP_MEM
+                address_mode: M68K_AM_REGI_ADDR
+      -
+        asm_text: "pmove (a0), srp"
+        details:
+          regs_read: [ a0 ]
+          regs_write: [ srp ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_MEM
+                address_mode: M68K_AM_REGI_ADDR
+              -
+                type: M68K_OP_REG
+                reg: srp
+      -
+        asm_text: "pmove srp, (a0)"
+        details:
+          regs_read: [ srp, a0 ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_REG
+                reg: srp
+              -
+                type: M68K_OP_MEM
+                address_mode: M68K_AM_REGI_ADDR
+      -
+        asm_text: "pmove (a0), crp"
+        details:
+          regs_read: [ a0 ]
+          regs_write: [ crp ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_MEM
+                address_mode: M68K_AM_REGI_ADDR
+              -
+                type: M68K_OP_REG
+                reg: crp
+      -
+        asm_text: "pmove crp, (a0)"
+        details:
+          regs_read: [ crp, a0 ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_REG
+                reg: crp
+              -
+                type: M68K_OP_MEM
+                address_mode: M68K_AM_REGI_ADDR
+      -
+        asm_text: "pmove (a0), tt0"
+        details:
+          regs_read: [ a0 ]
+          regs_write: [ tt0 ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_MEM
+                address_mode: M68K_AM_REGI_ADDR
+              -
+                type: M68K_OP_REG
+                reg: tt0
+      -
+        asm_text: "pmove tt0, (a0)"
+        details:
+          regs_read: [ tt0, a0 ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_REG
+                reg: tt0
+              -
+                type: M68K_OP_MEM
+                address_mode: M68K_AM_REGI_ADDR
+      -
+        asm_text: "pmove (a0), tt1"
+        details:
+          regs_read: [ a0 ]
+          regs_write: [ tt1 ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_MEM
+                address_mode: M68K_AM_REGI_ADDR
+              -
+                type: M68K_OP_REG
+                reg: tt1
+      -
+        asm_text: "pmove tt1, (a0)"
+        details:
+          regs_read: [ tt1, a0 ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_REG
+                reg: tt1
+              -
+                type: M68K_OP_MEM
+                address_mode: M68K_AM_REGI_ADDR
+      -
+        asm_text: "pmove (a0), mmusr"
+        details:
+          regs_read: [ a0 ]
+          regs_write: [ mmusr ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_MEM
+                address_mode: M68K_AM_REGI_ADDR
+              -
+                type: M68K_OP_REG
+                reg: mmusr
+      -
+        asm_text: "pmove mmusr, (a0)"
+        details:
+          regs_read: [ mmusr, a0 ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_REG
+                reg: mmusr
+              -
+                type: M68K_OP_MEM
+                address_mode: M68K_AM_REGI_ADDR
+      -
+        asm_text: "pmovefd (a0), tt0"
+        details:
+          regs_read: [ a0 ]
+          regs_write: [ tt0 ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_MEM
+                address_mode: M68K_AM_REGI_ADDR
+              -
+                type: M68K_OP_REG
+                reg: tt0
+      -
+        asm_text: "pmovefd tt0, (a0)"
+        details:
+          regs_read: [ tt0, a0 ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_REG
+                reg: tt0
+              -
+                type: M68K_OP_MEM
+                address_mode: M68K_AM_REGI_ADDR
+      -
+        asm_text: "pmovefd (a0), tt1"
+        details:
+          regs_read: [ a0 ]
+          regs_write: [ tt1 ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_MEM
+                address_mode: M68K_AM_REGI_ADDR
+              -
+                type: M68K_OP_REG
+                reg: tt1
+      -
+        asm_text: "pmovefd tt1, (a0)"
+        details:
+          regs_read: [ tt1, a0 ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_REG
+                reg: tt1
+              -
+                type: M68K_OP_MEM
+                address_mode: M68K_AM_REGI_ADDR
+      -
+        asm_text: "pmove (a0), tt0"
+        details:
+          regs_read: [ a0 ]
+          regs_write: [ tt0 ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_MEM
+                address_mode: M68K_AM_REGI_ADDR
+              -
+                type: M68K_OP_REG
+                reg: tt0
+      -
+        asm_text: "pmove tt0, (a0)"
+        details:
+          regs_read: [ tt0, a0 ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_REG
+                reg: tt0
+              -
+                type: M68K_OP_MEM
+                address_mode: M68K_AM_REGI_ADDR
+      -
+        asm_text: "pmove (a0), tt1"
+        details:
+          regs_read: [ a0 ]
+          regs_write: [ tt1 ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_MEM
+                address_mode: M68K_AM_REGI_ADDR
+              -
+                type: M68K_OP_REG
+                reg: tt1
+      -
+        asm_text: "pmove tt1, (a0)"
+        details:
+          regs_read: [ tt1, a0 ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_REG
+                reg: tt1
+              -
+                type: M68K_OP_MEM
+                address_mode: M68K_AM_REGI_ADDR
+      -
+        asm_text: "pmovefd (a0), tt0"
+        details:
+          regs_read: [ a0 ]
+          regs_write: [ tt0 ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_MEM
+                address_mode: M68K_AM_REGI_ADDR
+              -
+                type: M68K_OP_REG
+                reg: tt0
+      -
+        asm_text: "pmovefd tt0, (a0)"
+        details:
+          regs_read: [ tt0, a0 ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_REG
+                reg: tt0
+              -
+                type: M68K_OP_MEM
+                address_mode: M68K_AM_REGI_ADDR
+      -
+        asm_text: "pmovefd (a0), tt1"
+        details:
+          regs_read: [ a0 ]
+          regs_write: [ tt1 ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_MEM
+                address_mode: M68K_AM_REGI_ADDR
+              -
+                type: M68K_OP_REG
+                reg: tt1
+      -
+        asm_text: "pmovefd tt1, (a0)"
+        details:
+          regs_read: [ tt1, a0 ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_REG
+                reg: tt1
+              -
+                type: M68K_OP_MEM
+                address_mode: M68K_AM_REGI_ADDR
+      -
+        asm_text: "pmove $12345678.l, tc"
+        details:
+          regs_write: [ tc ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_MEM
+                address_mode: M68K_AM_ABSOLUTE_DATA_LONG
+              -
+                type: M68K_OP_REG
+                reg: tc
+      -
+        asm_text: "pmove srp, $1234.w"
+        details:
+          regs_read: [ srp ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_REG
+                reg: srp
+              -
+                type: M68K_OP_MEM
+                address_mode: M68K_AM_ABSOLUTE_DATA_SHORT

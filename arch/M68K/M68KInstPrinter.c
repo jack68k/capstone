@@ -26,7 +26,7 @@ static const char *const s_reg_names[] = {
 	"a7",	   "fp0",   "fp1",   "fp2", "fp3", "fp4",  "fp5",  "fp6",
 	"fp7",	   "pc",    "sr",    "ccr", "sfc", "dfc",  "usp",  "vbr",
 	"cacr",	   "caar",  "msp",   "isp", "tc",  "itt0", "itt1", "dtt0",
-	"dtt1",	   "mmusr", "urp",   "srp",
+	"dtt1",	   "mmusr", "urp",   "srp",  "crp",  "tt0",  "tt1",
 
 	"fpcr",	   "fpsr",  "fpiar",
 };
@@ -95,6 +95,21 @@ static const char *const s_instruction_names[] = {
 	"trapcs",   "traplo",	"trapne",   "trapeq",	"trapvc",    "trapvs",
 	"trappl",   "trapmi",	"trapge",   "traplt",	"trapgt",    "traple",
 	"tst",	    "unlk",	"unpk",
+
+	/* MC68851 PMMU condition-based instructions */
+	"pbbs",	    "pbbc",	"pbls",	    "pblc",	"pbss",	     "pbsc",
+	"pbas",	    "pbac",	"pbws",	    "pbwc",	"pbis",	     "pbic",
+	"pbgs",	    "pbgc",	"pbcs",	    "pbcc",
+	"pdbbs",    "pdbbc",	"pdbls",    "pdblc",	"pdbss",     "pdbsc",
+	"pdbas",    "pdbac",	"pdbws",    "pdbwc",	"pdbis",     "pdbic",
+	"pdbgs",    "pdbgc",	"pdbcs",    "pdbcc",
+	"prestore", "psave",
+	"psbs",	    "psbc",	"psls",	    "pslc",	"psss",	     "pssc",
+	"psas",	    "psac",	"psws",	    "pswc",	"psis",	     "psic",
+	"psgs",	    "psgc",	"pscs",	    "pscc",
+	"ptrapbs",  "ptrapbc",	"ptrapls",  "ptraplc",	"ptrapss",   "ptrapsc",
+	"ptrapas",  "ptrapac",	"ptrapws",  "ptrapwc",	"ptrapis",   "ptrapic",
+	"ptrapgs",  "ptrapgc",	"ptrapcs",  "ptrapcc",
 };
 #endif
 
