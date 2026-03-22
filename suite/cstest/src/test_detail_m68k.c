@@ -111,6 +111,7 @@ TestDetailM68KOp *test_detail_m68k_op_clone(TestDetailM68KOp *op)
 	clone->simm = op->simm;
 	clone->br_disp = op->br_disp;
 	clone->br_disp_size = op->br_disp_size;
+	clone->disp_offset = op->disp_offset;
 	clone->register_bits = op->register_bits;
 
 	clone->mem = op->mem ? test_detail_m68k_op_mem_clone(op->mem) : NULL;
@@ -147,6 +148,10 @@ bool test_expected_m68k(csh *handle, cs_m68k *actual, TestDetailM68K *expected)
 		TestDetailM68KOp *eop = expected->operands[i];
 		compare_enum_ret(op->type, eop->type, false);
 		compare_enum_ret(op->address_mode, eop->address_mode, false);
+		if (eop->disp_offset) {
+			compare_uint8_ret(op->disp_offset,
+					  eop->disp_offset, false);
+		}
 		switch (op->type) {
 		default:
 			fprintf(stderr,

@@ -733,7 +733,7 @@ test_cases:
               -
                 type: M68K_OP_BR_DISP
                 address_mode: M68K_AM_BRANCH_DISPLACEMENT
-                br_disp: 2
+                br_disp: 0
                 br_disp_size: 2
       -
         asm_text: "pdbbc d1, $1076"
@@ -748,7 +748,7 @@ test_cases:
               -
                 type: M68K_OP_BR_DISP
                 address_mode: M68K_AM_BRANCH_DISPLACEMENT
-                br_disp: 2
+                br_disp: 0
                 br_disp_size: 2
       -
         asm_text: "psbs.b (a0)"
@@ -1139,3 +1139,106 @@ test_cases:
               -
                 type: M68K_OP_MEM
                 address_mode: M68K_AM_ABSOLUTE_DATA_SHORT
+
+  -
+    input:
+      bytes: [ 0x20, 0x3A, 0x00, 0x4E, 0x4C, 0x3A, 0x08, 0x00, 0x00, 0x48, 0xE8, 0xFA, 0x00, 0x08, 0x00, 0x42, 0x60, 0x00, 0x00, 0x3E, 0x57, 0xC8, 0x00, 0x3A, 0xF2, 0x81, 0x00, 0x36, 0xF2, 0x48, 0x00, 0x01, 0x00, 0x30 ]
+      arch: "m68k"
+      options: [ CS_OPT_DETAIL, CS_MODE_BIG_ENDIAN, CS_MODE_M68K_030 ]
+      address: 0x4000
+    expected:
+      insns:
+      -
+        asm_text: "move.l $4050(pc), d0"
+        details:
+          m68k:
+            operands:
+              -
+                type: M68K_OP_MEM
+                address_mode: M68K_AM_PCI_DISP
+                disp_offset: 2
+                mem:
+                  disp: 0x4e
+                  disp_size: 1
+              -
+                type: M68K_OP_REG
+                reg: d0
+      -
+        asm_text: "muls.l $4050(pc), d0"
+        details:
+          m68k:
+            operands:
+              -
+                type: M68K_OP_MEM
+                address_mode: M68K_AM_PCI_DISP
+                disp_offset: 4
+                mem:
+                  disp: 0x48
+                  disp_size: 1
+              -
+                type: M68K_OP_REG
+                reg: d0
+      -
+        asm_text: "bftst $4050(pc){0:8}"
+        details:
+          m68k:
+            operands:
+              -
+                type: M68K_OP_MEM
+                address_mode: M68K_AM_PCI_DISP
+                disp_offset: 4
+                mem:
+                  disp: 0x42
+                  disp_size: 1
+                  bitfield: 1
+                  width: 8
+      -
+        asm_text: "bra.w $4050"
+        details:
+          m68k:
+            operands:
+              -
+                type: M68K_OP_BR_DISP
+                address_mode: M68K_AM_BRANCH_DISPLACEMENT
+                disp_offset: 2
+                br_disp: 0x3e
+                br_disp_size: 2
+      -
+        asm_text: "dbeq d0, $4050"
+        details:
+          m68k:
+            operands:
+              -
+                type: M68K_OP_REG
+                reg: d0
+              -
+                type: M68K_OP_BR_DISP
+                address_mode: M68K_AM_BRANCH_DISPLACEMENT
+                disp_offset: 2
+                br_disp: 0x3a
+                br_disp_size: 4
+      -
+        asm_text: "fbeq.w $4050"
+        details:
+          m68k:
+            operands:
+              -
+                type: M68K_OP_BR_DISP
+                address_mode: M68K_AM_BRANCH_DISPLACEMENT
+                disp_offset: 2
+                br_disp: 0x36
+                br_disp_size: 2
+      -
+        asm_text: "fdbeq d0, $4050"
+        details:
+          m68k:
+            operands:
+              -
+                type: M68K_OP_REG
+                reg: d0
+              -
+                type: M68K_OP_BR_DISP
+                address_mode: M68K_AM_BRANCH_DISPLACEMENT
+                disp_offset: 4
+                br_disp: 0x30
+                br_disp_size: 2

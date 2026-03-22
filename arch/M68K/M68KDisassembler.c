@@ -583,12 +583,14 @@ static void get_ea_mode_op(m68k_info *info, cs_m68k_op *op,
 	case 0x3a:
 		/* program counter with displacement */
 		op->address_mode = M68K_AM_PCI_DISP;
+		op->disp_offset = (uint8_t)(info->pc - (unsigned int)info->baseAddress);
 		op->mem.disp = (int16_t)read_imm_16(info);
 		op->mem.disp_size = 1;
 		break;
 
 	case 0x3b:
 		/* program counter with index */
+		op->disp_offset = (uint8_t)(info->pc - (unsigned int)info->baseAddress);
 		get_with_index_address_mode(info, op, instruction, size, true);
 		break;
 
@@ -876,6 +878,7 @@ static void build_relative_branch(m68k_info *info, int opcode, int size,
 	op->address_mode = M68K_AM_BRANCH_DISPLACEMENT;
 	op->br_disp.disp = displacement;
 	op->br_disp.disp_size = size;
+	op->disp_offset = 2;
 
 	set_insn_group(info, M68K_GRP_JUMP);
 	set_insn_group(info, M68K_GRP_BRANCH_RELATIVE);
@@ -924,6 +927,7 @@ static void build_dbxx(m68k_info *info, int opcode, int size, int displacement)
 	op1->address_mode = M68K_AM_BRANCH_DISPLACEMENT;
 	op1->br_disp.disp = displacement;
 	op1->br_disp.disp_size = M68K_OP_BR_DISP_SIZE_LONG;
+	op1->disp_offset = 2;
 
 	set_insn_group(info, M68K_GRP_JUMP);
 	set_insn_group(info, M68K_GRP_BRANCH_RELATIVE);
@@ -1918,12 +1922,14 @@ static void d68000_cmpm_32(m68k_info *info)
 	build_pi_pi(info, M68K_INS_CMPM, 4);
 }
 
-static void make_cpbcc_operand(cs_m68k_op *op, int size, int displacement)
+static void make_cpbcc_operand(cs_m68k_op *op, int size, int displacement,
+			       uint8_t disp_offset)
 {
 	op->address_mode = M68K_AM_BRANCH_DISPLACEMENT;
 	op->type = M68K_OP_BR_DISP;
 	op->br_disp.disp = displacement;
 	op->br_disp.disp_size = size;
+	op->disp_offset = disp_offset;
 }
 
 static void d68020_cpbcc_16(m68k_info *info)
@@ -1951,7 +1957,7 @@ static void d68020_cpbcc_16(m68k_info *info)
 	op0 = &ext->operands[0];
 
 	make_cpbcc_operand(op0, M68K_OP_BR_DISP_SIZE_WORD,
-			   make_int_16(read_imm_16(info)));
+			   make_int_16(read_imm_16(info)), 2);
 
 	set_insn_group(info, M68K_GRP_JUMP);
 	set_insn_group(info, M68K_GRP_BRANCH_RELATIVE);
@@ -1975,7 +1981,7 @@ static void d68020_cpbcc_32(m68k_info *info)
 
 	op0 = &ext->operands[0];
 
-	make_cpbcc_operand(op0, M68K_OP_BR_DISP_SIZE_LONG, read_imm_32(info));
+	make_cpbcc_operand(op0, M68K_OP_BR_DISP_SIZE_LONG, read_imm_32(info), 2);
 
 	set_insn_group(info, M68K_GRP_JUMP);
 	set_insn_group(info, M68K_GRP_BRANCH_RELATIVE);
@@ -2009,7 +2015,7 @@ static void d68020_cpdbcc(m68k_info *info)
 	op0->reg = M68K_REG_D0 + (info->ir & 7);
 
 	make_cpbcc_operand(op1, M68K_OP_BR_DISP_SIZE_WORD,
-			   make_int_16(ext2) + 2);
+			   make_int_16(ext2), 4);
 
 	set_insn_group(info, M68K_GRP_JUMP);
 	set_insn_group(info, M68K_GRP_BRANCH_RELATIVE);

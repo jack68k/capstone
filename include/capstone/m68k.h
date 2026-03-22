@@ -109,7 +109,7 @@ typedef enum m68k_address_mode {
 	M68K_AM_ABSOLUTE_DATA_LONG, ///< Absolute Data Addressing  - Long
 	M68K_AM_IMMEDIATE, ///< Immediate value
 
-	M68K_AM_BRANCH_DISPLACEMENT, ///< Address as displacement from (PC+2) used by branches
+	M68K_AM_BRANCH_DISPLACEMENT, ///< Branch displacement relative to the displacement word
 } m68k_address_mode;
 
 /// Operand type for instruction's operands
@@ -182,6 +182,11 @@ typedef struct cs_m68k_op {
 	uint32_t register_bits; ///< register bits for movem etc. (always in d0-d7, a0-a7, fp0 - fp7 order)
 	m68k_op_type type;
 	m68k_address_mode address_mode; ///< M68K addressing mode for this op
+	uint8_t disp_offset; ///< Byte offset from instruction start to the displacement word.
+			     ///< For PC-relative EA: target = instruction_addr + disp_offset + disp
+			     ///< For branch displacement: target = instruction_addr + disp_offset + disp
+			     ///< Typically 2 (displacement follows opword), but 4 when an extension
+			     ///< word sits between the opword and the displacement.
 } cs_m68k_op;
 
 /// Operation size of the CPU instructions

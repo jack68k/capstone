@@ -73,6 +73,7 @@ typedef struct {
 	uint64_t imm;
 	int32_t br_disp;
 	uint8_t br_disp_size;
+	uint8_t disp_offset;
 
 	uint32_t register_bits;
 
@@ -105,6 +106,8 @@ static const cyaml_schema_field_t test_detail_m68k_op_mapping_schema[] = {
 			br_disp),
 	CYAML_FIELD_UINT("br_disp_size", CYAML_FLAG_OPTIONAL, TestDetailM68KOp,
 			 br_disp_size),
+	CYAML_FIELD_UINT("disp_offset", CYAML_FLAG_OPTIONAL, TestDetailM68KOp,
+			 disp_offset),
 	CYAML_FIELD_UINT("register_bits", CYAML_FLAG_OPTIONAL, TestDetailM68KOp,
 			 register_bits),
 	CYAML_FIELD_FLOAT("dimm", CYAML_FLAG_OPTIONAL, TestDetailM68KOp, dimm),
