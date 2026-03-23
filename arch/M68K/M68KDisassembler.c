@@ -119,6 +119,13 @@ enum {
 	M68K_CPU_TYPE_68040 /* Supported by disassembler ONLY */
 };
 
+/* Coprocessor IDs
+ * PMMU is always 0 per 68851 manual, also true for integrated PMMU on 68030+
+ * FPU is always 1 per 68881/68882 manual, also true when integrated in 68040+
+ */
+#define M68K_CPID_PMMU 0
+#define M68K_CPID_FPU  1
+
 /* Extension word formats */
 #define EXT_8BIT_DISPLACEMENT(A) ((A) & 0xff)
 #define EXT_FULL(A) BIT_8(A)
@@ -1936,7 +1943,14 @@ static void d68020_cpbcc_16(m68k_info *info)
 {
 	cs_m68k_op *op0;
 	cs_m68k *ext;
+	int cpid;
 	LIMIT_CPU_TYPES(info, M68020_PLUS);
+
+	cpid = get_coprocessor_id(info);
+	if (cpid > M68K_CPID_FPU) {
+		d68000_invalid(info);
+		return;
+	}
 
 	// FNOP is a special case of FBF.W #0 (CP ID 1 only)
 	if (info->ir == 0xf280 && peek_imm_16(info) == 0) {
@@ -1945,8 +1959,7 @@ static void d68020_cpbcc_16(m68k_info *info)
 		return;
 	}
 
-	int cpid = get_coprocessor_id(info);
-	if (cpid == 0) {
+	if (cpid == M68K_CPID_PMMU) {
 		ext = build_init_op(info, M68K_INS_PBBS, 1, 2);
 		info->inst->Opcode += (info->ir & 0x0f);
 	} else {
@@ -1967,11 +1980,16 @@ static void d68020_cpbcc_32(m68k_info *info)
 {
 	cs_m68k *ext;
 	cs_m68k_op *op0;
-
+	int cpid;
+	
 	LIMIT_CPU_TYPES(info, M68020_PLUS);
-
-	int cpid = get_coprocessor_id(info);
-	if (cpid == 0) {
+	cpid = get_coprocessor_id(info);
+	if (cpid > M68K_CPID_FPU) {
+		d68000_invalid(info);
+		return;
+	}
+	
+	if (cpid == M68K_CPID_PMMU) {
 		ext = build_init_op(info, M68K_INS_PBBS, 1, 4);
 		info->inst->Opcode += (info->ir & 0x0f);
 	} else {
@@ -1993,14 +2011,19 @@ static void d68020_cpdbcc(m68k_info *info)
 	cs_m68k_op *op0;
 	cs_m68k_op *op1;
 	uint32_t ext1, ext2;
-
+	int cpid;
+	
 	LIMIT_CPU_TYPES(info, M68020_PLUS);
+	cpid = get_coprocessor_id(info);
+	if (cpid > M68K_CPID_FPU) {
+		d68000_invalid(info);
+		return;
+	}
 
 	ext1 = read_imm_16(info);
 	ext2 = read_imm_16(info);
 
-	int cpid = get_coprocessor_id(info);
-	if (cpid == 0) {
+	if (cpid == M68K_CPID_PMMU) {
 		ext = build_init_op(info, M68K_INS_PDBBS, 2, 0);
 		info->inst->Opcode += (ext1 & 0x0f);
 	} else {
@@ -2558,21 +2581,31 @@ static void d68020_cpgen(m68k_info *info)
 static void d68020_cprestore(m68k_info *info)
 {
 	cs_m68k *ext;
+	int cpid;
+	
 	LIMIT_CPU_TYPES(info, M68020_PLUS);
-
-	int cpid = get_coprocessor_id(info);
-	ext = build_init_op(info, cpid == 0 ? M68K_INS_PRESTORE : M68K_INS_FRESTORE, 1, 0);
+	cpid = get_coprocessor_id(info);
+	if (cpid > M68K_CPID_FPU) {
+		d68000_invalid(info);
+		return;
+	}
+	ext = build_init_op(info, cpid == M68K_CPID_PMMU ? M68K_INS_PRESTORE : M68K_INS_FRESTORE, 1, 0);
 	get_ea_mode_op(info, &ext->operands[0], info->ir, 1);
 }
 
 static void d68020_cpsave(m68k_info *info)
 {
 	cs_m68k *ext;
+	int cpid;
 
 	LIMIT_CPU_TYPES(info, M68020_PLUS);
-
-	int cpid = get_coprocessor_id(info);
-	ext = build_init_op(info, cpid == 0 ? M68K_INS_PSAVE : M68K_INS_FSAVE, 1, 0);
+	cpid = get_coprocessor_id(info);
+	if (cpid > M68K_CPID_FPU) {
+		d68000_invalid(info);
+		return;
+	}
+	
+	ext = build_init_op(info, cpid == M68K_CPID_PMMU ? M68K_INS_PSAVE : M68K_INS_FSAVE, 1, 0);
 	get_ea_mode_op(info, &ext->operands[0], info->ir, 1);
 }
 
@@ -2580,13 +2613,17 @@ static void d68020_cpscc(m68k_info *info)
 {
 	cs_m68k *ext;
 	uint32_t extension;
+	int cpid;
 
 	LIMIT_CPU_TYPES(info, M68020_PLUS);
-
+	cpid = get_coprocessor_id(info);
+	if (cpid > M68K_CPID_FPU) {
+		d68000_invalid(info);
+		return;
+	}
+	
 	extension = read_imm_16(info);
-
-	int cpid = get_coprocessor_id(info);
-	if (cpid == 0) {
+	if (cpid == M68K_CPID_PMMU) {
 		ext = build_init_op(info, M68K_INS_PSBS, 1, 1);
 		info->inst->Opcode += (extension & 0x0f);
 	} else {
@@ -2600,12 +2637,17 @@ static void d68020_cpscc(m68k_info *info)
 static void d68020_cptrapcc_0(m68k_info *info)
 {
 	uint32_t extension1;
+	int cpid;
+	
 	LIMIT_CPU_TYPES(info, M68020_PLUS);
+	cpid = get_coprocessor_id(info);
+	if (cpid > M68K_CPID_FPU) {
+		d68000_invalid(info);
+		return;
+	}
 
 	extension1 = read_imm_16(info);
-
-	int cpid = get_coprocessor_id(info);
-	if (cpid == 0) {
+	if (cpid == M68K_CPID_PMMU) {
 		build_init_op(info, M68K_INS_PTRAPBS, 0, 0);
 		info->inst->Opcode += (extension1 & 0x0f);
 	} else {
@@ -2619,14 +2661,19 @@ static void d68020_cptrapcc_16(m68k_info *info)
 	uint32_t extension1, extension2;
 	cs_m68k_op *op0;
 	cs_m68k *ext;
+	int cpid;
 
 	LIMIT_CPU_TYPES(info, M68020_PLUS);
+	cpid = get_coprocessor_id(info);
+	if (cpid > M68K_CPID_FPU) {
+		d68000_invalid(info);
+		return;
+	}
 
 	extension1 = read_imm_16(info);
 	extension2 = read_imm_16(info);
 
-	int cpid = get_coprocessor_id(info);
-	if (cpid == 0) {
+	if (cpid == M68K_CPID_PMMU) {
 		ext = build_init_op(info, M68K_INS_PTRAPBS, 1, 2);
 		info->inst->Opcode += (extension1 & 0x0f);
 	} else {
@@ -2646,14 +2693,19 @@ static void d68020_cptrapcc_32(m68k_info *info)
 	uint32_t extension1, extension2;
 	cs_m68k *ext;
 	cs_m68k_op *op0;
-
+	int cpid;
+	
 	LIMIT_CPU_TYPES(info, M68020_PLUS);
+	cpid = get_coprocessor_id(info);
+	if (cpid > M68K_CPID_FPU) {
+		d68000_invalid(info);
+		return;
+	}
 
 	extension1 = read_imm_16(info);
 	extension2 = read_imm_32(info);
 
-	int cpid = get_coprocessor_id(info);
-	if (cpid == 0) {
+	if (cpid == M68K_CPID_PMMU) {
 		ext = build_init_op(info, M68K_INS_PTRAPBS, 1, 2);
 		info->inst->Opcode += (extension1 & 0x0f);
 	} else {
