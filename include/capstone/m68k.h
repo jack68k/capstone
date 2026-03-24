@@ -203,6 +203,7 @@ typedef enum m68k_fpu_size {
 	M68K_FPU_SIZE_SINGLE = 4, ///< 4 byte in size (single float)
 	M68K_FPU_SIZE_DOUBLE = 8, ///< 8 byte in size (double)
 	M68K_FPU_SIZE_EXTENDED = 12, ///< 12 byte in size (extended real format)
+	M68K_FPU_SIZE_PACKED = 12, ///< 12 byte in size (packed decimal real format)
 } m68k_fpu_size;
 
 /// Type of size that is being used for the current instruction
@@ -210,15 +211,16 @@ typedef enum m68k_size_type {
 	M68K_SIZE_TYPE_INVALID = 0,
 
 	M68K_SIZE_TYPE_CPU,
-	M68K_SIZE_TYPE_FPU,
+	M68K_SIZE_TYPE_FPU, ///< FPU instructions with .s, .d, and .x suffixes
+	M68K_SIZE_TYPE_FPU_PACKED,  ///< FPU instructions with .p suffix
 } m68k_size_type;
 
-/// Operation size of the current instruction (NOT the actually size of instruction)
+/// Operation size of the current instruction (NOT the actual size of instruction)
 typedef struct m68k_op_size {
 	m68k_size_type type;
 	union {
-		m68k_cpu_size cpu_size;
-		m68k_fpu_size fpu_size;
+		m68k_cpu_size cpu_size; ///< when type is M68K_SIZE_TYPE_CPU
+		m68k_fpu_size fpu_size; ///< when type is M68K_SIZE_TYPE_FPU or M68K_SIZE_TYPE_FPU_PACKED
 	};
 } m68k_op_size;
 

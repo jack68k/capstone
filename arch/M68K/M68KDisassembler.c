@@ -2371,9 +2371,14 @@ static void d68020_fpu(m68k_info *info)
 			break;
 
 		case 0x02: // extended real
-		case 0x03: // packed decimal
 			ext->op_size.type = M68K_SIZE_TYPE_FPU;
 			ext->op_size.fpu_size = M68K_FPU_SIZE_EXTENDED;
+			get_ea_mode_op(info, op0, info->ir, 12);
+			break;
+
+		case 0x03: // packed decimal
+			ext->op_size.type = M68K_SIZE_TYPE_FPU_PACKED;
+			ext->op_size.fpu_size = M68K_FPU_SIZE_PACKED;
 			get_ea_mode_op(info, op0, info->ir, 12);
 			break;
 

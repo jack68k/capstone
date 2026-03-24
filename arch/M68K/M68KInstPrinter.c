@@ -438,6 +438,10 @@ void M68K_printInst(MCInst *MI, SStream *O, void *PrinterInfo)
 			break;
 		}
 		break;
+
+	case M68K_SIZE_TYPE_FPU_PACKED:
+		SStream_concat0(O, ".p");
+		break;
 	}
 
 	SStream_concat0(O, " ");

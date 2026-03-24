@@ -923,6 +923,7 @@ static const cs_enum_id_map cs_enum_map[] = {
 	{ .str = "M68K_OP_REG_PAIR", .val = M68K_OP_REG_PAIR },
 	{ .str = "M68K_SIZE_TYPE_CPU", .val = M68K_SIZE_TYPE_CPU },
 	{ .str = "M68K_SIZE_TYPE_FPU", .val = M68K_SIZE_TYPE_FPU },
+	{ .str = "M68K_SIZE_TYPE_FPU_PACKED", .val = M68K_SIZE_TYPE_FPU_PACKED },
 	{ .str = "MIPS_INS_ADDIU", .val = MIPS_INS_ADDIU },
 	{ .str = "MIPS_INS_ADDIUPC", .val = MIPS_INS_ADDIUPC },
 	{ .str = "MIPS_INS_ALIAS_B", .val = MIPS_INS_ALIAS_B },

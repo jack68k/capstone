@@ -1291,7 +1291,7 @@ test_cases:
                 type: M68K_OP_REG
                 reg: fp0
       -
-        asm_text: "fmove.x (a0), fp0"
+        asm_text: "fmove.p (a0), fp0"
         details:
           regs_read: [ a0 ]
           regs_write: [ fp0 ]
