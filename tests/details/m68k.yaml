@@ -1386,3 +1386,64 @@ test_cases:
               -
                 type: M68K_OP_REG
                 reg: fp1
+  -
+    input:
+      bytes: [ 0xf2, 0x3c, 0x48, 0x00, 0x3f, 0xff, 0x00, 0x00, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xf2, 0x3c, 0x48, 0x80, 0xc0, 0x00, 0x00, 0x00, 0xa0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 ]
+      arch: "m68k"
+      options: [ CS_OPT_DETAIL, CS_MODE_BIG_ENDIAN, CS_MODE_M68K_040 ]
+      address: 0x3000
+    expected:
+      insns:
+      -
+        asm_text: "fmove.x #$3fff00008000000000000000, fp0"
+        details:
+          regs_write: [ fp0 ]
+          m68k:
+            op_size_type: M68K_SIZE_TYPE_FPU
+            op_size_fpu: M68K_FPU_SIZE_EXTENDED
+            operands:
+              -
+                type: M68K_OP_FP_EXTENDED
+                address_mode: M68K_AM_IMMEDIATE
+                ximm: "3fff00008000000000000000"
+              -
+                type: M68K_OP_REG
+                reg: fp0
+      -
+        asm_text: "fmove.x #$c0000000a000000000000000, fp1"
+        details:
+          regs_write: [ fp1 ]
+          m68k:
+            op_size_type: M68K_SIZE_TYPE_FPU
+            op_size_fpu: M68K_FPU_SIZE_EXTENDED
+            operands:
+              -
+                type: M68K_OP_FP_EXTENDED
+                address_mode: M68K_AM_IMMEDIATE
+                ximm: "c0000000a000000000000000"
+              -
+                type: M68K_OP_REG
+                reg: fp1
+  -
+    input:
+      bytes: [ 0xf2, 0x3c, 0x4c, 0x00, 0x00, 0x01, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 ]
+      arch: "m68k"
+      options: [ CS_OPT_DETAIL, CS_MODE_BIG_ENDIAN, CS_MODE_M68K_040 ]
+      address: 0x4000
+    expected:
+      insns:
+      -
+        asm_text: "fmove.p #$000100001000000000000000, fp0"
+        details:
+          regs_write: [ fp0 ]
+          m68k:
+            op_size_type: M68K_SIZE_TYPE_FPU_PACKED
+            op_size_fpu: M68K_FPU_SIZE_PACKED
+            operands:
+              -
+                type: M68K_OP_FP_EXTENDED
+                address_mode: M68K_AM_IMMEDIATE
+                ximm: "000100001000000000000000"
+              -
+                type: M68K_OP_REG
+                reg: fp0

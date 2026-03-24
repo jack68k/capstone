@@ -218,6 +218,18 @@ static uint64_t m68k_read_safe_64(const m68k_info *info, const uint64_t address)
 	return m68k_read_disassembler_64(info, addr);
 }
 
+static void m68k_read_safe_96(const m68k_info *info, const uint64_t address,
+			      uint8_t *dst)
+{
+	const uint64_t addr = (address - info->baseAddress) &
+			      info->address_mask;
+	if (info->code_len < addr + 12) {
+		memset(dst, 0xaa, 12);
+		return;
+	}
+	memcpy(dst, info->code + addr, 12);
+}
+
 /* ======================================================================== */
 /* =============================== PROTOTYPES ============================= */
 /* ======================================================================== */
@@ -306,6 +318,10 @@ static unsigned long long peek_imm_64(const m68k_info *info)
 {
 	return m68k_read_safe_64((info), (info)->pc);
 }
+static void peek_imm_96(const m68k_info *info, uint8_t *dst)
+{
+	m68k_read_safe_96(info, info->pc, dst);
+}
 
 static unsigned int read_imm_8(m68k_info *info)
 {
@@ -330,6 +346,11 @@ static unsigned long long read_imm_64(m68k_info *info)
 	const unsigned long long value = peek_imm_64(info);
 	(info)->pc += 8;
 	return value & 0xffffffffffffffff;
+}
+static void read_imm_96(m68k_info *info, uint8_t *dst)
+{
+	peek_imm_96(info, dst);
+	info->pc += 12;
 }
 
 /* Fake a split interface */
@@ -611,6 +632,8 @@ static void get_ea_mode_op(m68k_info *info, cs_m68k_op *op,
 			op->imm = read_imm_16(info);
 		else if (size == 4)
 			op->imm = read_imm_32(info);
+		else if (size == 12)
+			read_imm_96(info, op->fp_ext.ximm);
 		else
 			op->imm = read_imm_64(info);
 
@@ -2374,12 +2397,16 @@ static void d68020_fpu(m68k_info *info)
 			ext->op_size.type = M68K_SIZE_TYPE_FPU;
 			ext->op_size.fpu_size = M68K_FPU_SIZE_EXTENDED;
 			get_ea_mode_op(info, op0, info->ir, 12);
+			if (op0->type == M68K_OP_IMM)
+				op0->type = M68K_OP_FP_EXTENDED;
 			break;
 
 		case 0x03: // packed decimal
 			ext->op_size.type = M68K_SIZE_TYPE_FPU_PACKED;
 			ext->op_size.fpu_size = M68K_FPU_SIZE_PACKED;
 			get_ea_mode_op(info, op0, info->ir, 12);
+			if (op0->type == M68K_OP_IMM)
+				op0->type = M68K_OP_FP_EXTENDED;
 			break;
 
 		default:

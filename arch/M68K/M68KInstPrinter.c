@@ -224,6 +224,13 @@ static void printAddressingMode(SStream *O, unsigned int pc,
 		SStream_concat(O, "$%" PRIx64 ".l", op->imm);
 		break;
 	case M68K_AM_IMMEDIATE:
+		if (op->type == M68K_OP_FP_EXTENDED) {
+			int i;
+			SStream_concat0(O, "#$");
+			for (i = 0; i < 12; i++)
+				SStream_concat(O, "%02x", op->fp_ext.ximm[i]);
+			break;
+		}
 		if (inst->op_size.type == M68K_SIZE_TYPE_FPU) {
 #if defined(_KERNEL_MODE)
 			// Issue #681: Windows kernel does not support formatting float point

@@ -80,6 +80,8 @@ typedef struct {
 	double dimm;
 	float simm;
 
+	char *ximm; ///< hex string for 96-bit extended/packed immediate
+
 	TestDetailM68KOpMem *mem;
 } TestDetailM68KOp;
 
@@ -112,6 +114,8 @@ static const cyaml_schema_field_t test_detail_m68k_op_mapping_schema[] = {
 			 register_bits),
 	CYAML_FIELD_FLOAT("dimm", CYAML_FLAG_OPTIONAL, TestDetailM68KOp, dimm),
 	CYAML_FIELD_FLOAT("simm", CYAML_FLAG_OPTIONAL, TestDetailM68KOp, simm),
+	CYAML_FIELD_STRING_PTR("ximm", CYAML_FLAG_POINTER | CYAML_FLAG_OPTIONAL,
+			       TestDetailM68KOp, ximm, 0, CYAML_UNLIMITED),
 	CYAML_FIELD_MAPPING_PTR("mem", CYAML_FLAG_OPTIONAL, TestDetailM68KOp,
 				mem, test_detail_m68k_op_mem_mapping_schema),
 	CYAML_FIELD_END

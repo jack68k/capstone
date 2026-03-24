@@ -109,6 +109,7 @@ TestDetailM68KOp *test_detail_m68k_op_clone(TestDetailM68KOp *op)
 	clone->imm = op->imm;
 	clone->dimm = op->dimm;
 	clone->simm = op->simm;
+	clone->ximm = op->ximm ? strdup(op->ximm) : NULL;
 	clone->br_disp = op->br_disp;
 	clone->br_disp_size = op->br_disp_size;
 	clone->disp_offset = op->disp_offset;
@@ -128,6 +129,7 @@ void test_detail_m68k_op_free(TestDetailM68KOp *op)
 	cs_mem_free(op->reg_pair_0);
 	cs_mem_free(op->reg_pair_1);
 	cs_mem_free(op->address_mode);
+	cs_mem_free(op->ximm);
 	test_detail_m68k_op_mem_free(op->mem);
 	cs_mem_free(op);
 }
@@ -175,6 +177,21 @@ bool test_expected_m68k(csh *handle, cs_m68k *actual, TestDetailM68K *expected)
 			break;
 		case M68K_OP_FP_DOUBLE:
 			compare_fp_ret(op->dimm, eop->dimm, false);
+			break;
+		case M68K_OP_FP_EXTENDED:
+			if (eop->ximm) {
+				char actual_hex[25];  // 12*2 chars + \0
+				for (int j = 0; j < 12; j++)
+					snprintf(actual_hex + j * 2, 3,
+						 "%02x", op->fp_ext.ximm[j]);
+				actual_hex[24] = '\0';
+				if (strcmp(actual_hex, eop->ximm) != 0) {
+					fprintf(stderr,
+						"ximm mismatch: got %s, expected %s\n",
+						actual_hex, eop->ximm);
+					return false;
+				}
+			}
 			break;
 		case M68K_OP_REG_BITS:
 			compare_uint32_ret(op->register_bits,

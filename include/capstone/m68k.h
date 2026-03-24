@@ -126,6 +126,8 @@ typedef enum m68k_op_type {
 		CS_OP_SPECIAL +
 		3, ///< Register pair in the same op (upper 4 bits for first reg, lower for second)
 	M68K_OP_BR_DISP = CS_OP_SPECIAL + 4, ///< Branch displacement
+	M68K_OP_FP_EXTENDED =
+		CS_OP_SPECIAL + 5, ///< extended precision / packed decimal Floating-Point operand (ximm)
 	M68K_OP_MEM = CS_OP_MEM, ///< = CS_OP_MEM (Memory operand).
 } m68k_op_type;
 
@@ -167,6 +169,11 @@ typedef struct cs_m68k_op_reg_pair {
 	m68k_reg reg_1;
 } cs_m68k_op_reg_pair;
 
+/// 96-bit extended-precision / packed-decimal FPU immediate.
+typedef struct m68k_op_fp_ext {
+	uint8_t ximm[12]; ///< Raw big-endian M68K byte order.
+} m68k_op_fp_ext;
+
 /// Instruction operand
 typedef struct cs_m68k_op {
 	union {
@@ -187,6 +194,8 @@ typedef struct cs_m68k_op {
 			     ///< For branch displacement: target = instruction_addr + disp_offset + disp
 			     ///< Typically 2 (displacement follows opword), but 4 when an extension
 			     ///< word sits between the opword and the displacement.
+	m68k_op_fp_ext fp_ext; ///< 96-bit extended-precision / packed-decimal immediate.
+			       ///< Valid when type is M68K_OP_FP_EXTENDED.
 } cs_m68k_op;
 
 /// Operation size of the CPU instructions
