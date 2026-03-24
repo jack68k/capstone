@@ -2333,40 +2333,53 @@ static void d68020_fpu(m68k_info *info)
 
 	if (rm == 1) {
 		switch (src) {
-		case 0x00:
+		case 0x00:  // long integer
 			ext->op_size.cpu_size = M68K_CPU_SIZE_LONG;
 			get_ea_mode_op(info, op0, info->ir, 4);
 			break;
 
-		case 0x06:
+		case 0x06:  // byte integer
 			ext->op_size.cpu_size = M68K_CPU_SIZE_BYTE;
 			get_ea_mode_op(info, op0, info->ir, 1);
 			break;
 
-		case 0x04:
+		case 0x04:  // word integer
 			ext->op_size.cpu_size = M68K_CPU_SIZE_WORD;
 			get_ea_mode_op(info, op0, info->ir, 2);
 			break;
 
-		case 0x01:
+		case 0x01:  // single real
 			ext->op_size.type = M68K_SIZE_TYPE_FPU;
 			ext->op_size.fpu_size = M68K_FPU_SIZE_SINGLE;
 			get_ea_mode_op(info, op0, info->ir, 4);
-			op0->simm = BitsToFloat(op0->imm);
-			op0->type = M68K_OP_FP_SINGLE;
+			if (op0->type == M68K_OP_IMM) {
+				// reinterpret the immediate as float
+				op0->simm = BitsToFloat((uint32_t)op0->imm);
+				op0->type = M68K_OP_FP_SINGLE;
+			}
 			break;
 
-		case 0x05:
+		case 0x05:  // double real
 			ext->op_size.type = M68K_SIZE_TYPE_FPU;
 			ext->op_size.fpu_size = M68K_FPU_SIZE_DOUBLE;
 			get_ea_mode_op(info, op0, info->ir, 8);
-			op0->type = M68K_OP_FP_DOUBLE;
+			if (op0->type == M68K_OP_IMM) {
+				// reinterpret the immediate as double
+				op0->dimm = BitsToDouble(op0->imm);
+				op0->type = M68K_OP_FP_DOUBLE;
+			}
+			break;
+
+		case 0x02: // extended real
+		case 0x03: // packed decimal
+			ext->op_size.type = M68K_SIZE_TYPE_FPU;
+			ext->op_size.fpu_size = M68K_FPU_SIZE_EXTENDED;
+			get_ea_mode_op(info, op0, info->ir, 12);
 			break;
 
 		default:
-			ext->op_size.type = M68K_SIZE_TYPE_FPU;
-			ext->op_size.fpu_size = M68K_FPU_SIZE_EXTENDED;
-			break;
+			d68000_invalid(info);
+			return;
 		}
 	} else {
 		op0->reg = M68K_REG_FP0 + src;
