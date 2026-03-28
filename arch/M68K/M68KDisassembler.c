@@ -2120,6 +2120,8 @@ static void fmovem(m68k_info *info, uint32_t extension)
 
 	switch (mode) {
 	case 1: // Dynamic list in dn register
+		op_reglist->address_mode = M68K_AM_REG_DIRECT_DATA;
+		op_reglist->type = M68K_OP_REG;
 		op_reglist->reg = M68K_REG_D0 + ((reglist >> 4) & 7);
 		break;
 

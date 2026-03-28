@@ -1447,3 +1447,24 @@ test_cases:
               -
                 type: M68K_OP_REG
                 reg: fp0
+  -
+    input:
+      bytes: [ 0xf2, 0x10, 0xe8, 0x30 ]
+      arch: "m68k"
+      options: [ CS_OPT_DETAIL, CS_MODE_BIG_ENDIAN, CS_MODE_M68K_040 ]
+      address: 0x1000
+    expected:
+      insns:
+      -
+        asm_text: "fmovem d3, (a0)"
+        details:
+          regs_read: [ d3, a0 ]
+          m68k:
+            operands:
+              -
+                type: M68K_OP_REG
+                reg: d3
+                address_mode: M68K_AM_REG_DIRECT_DATA
+              -
+                type: M68K_OP_MEM
+                address_mode: M68K_AM_REGI_ADDR
