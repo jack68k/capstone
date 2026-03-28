@@ -2525,6 +2525,11 @@ static void d68851_pmove(m68k_info *info, uint32_t ext)
 		}
 	}
 
+	if (preg == M68K_REG_INVALID) {
+		build_invalid(info, info->ir);
+		return;
+	}
+
 	m68k = build_init_op(info, fd ? M68K_INS_PMOVEFD : M68K_INS_PMOVE, 2, 0);
 
 	if (rw == 0) {

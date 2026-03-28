@@ -1449,6 +1449,22 @@ test_cases:
                 reg: fp0
   -
     input:
+      bytes: [ 0xf0, 0x10, 0x00, 0x00 ]
+      arch: "m68k"
+      options: [ CS_OPT_DETAIL, CS_MODE_BIG_ENDIAN, CS_MODE_M68K_040 ]
+      address: 0x1000
+    expected:
+      insns:
+      -
+        asm_text: "dc.w $f010"
+        details:
+          m68k:
+            operands:
+              -
+                type: M68K_OP_IMM
+                imm: 0xf010
+  -
+    input:
       bytes: [ 0xf2, 0x10, 0xe8, 0x30 ]
       arch: "m68k"
       options: [ CS_OPT_DETAIL, CS_MODE_BIG_ENDIAN, CS_MODE_M68K_040 ]
